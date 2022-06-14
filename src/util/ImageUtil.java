@@ -17,7 +17,7 @@ public class ImageUtil {
   /**
    * Read an image file in the PPM format and print the colors.
    *
-   * @param filename the path of the file.
+   * @param filename the path of the PPM file.
    * @return the 2D array of pixels representing an image
    * @throws IllegalStateException if the file is not found or is not a valid PPM file
    */

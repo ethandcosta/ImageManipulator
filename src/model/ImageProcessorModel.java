@@ -89,6 +89,127 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     return temp;
   }
 
+  @Override
+  public Pixel[][] greyscaleFilter(boolean override) {
+    Pixel[][] temp = this.generateTemp();
+    double[][] greyscale = {{.2126, .7152, .0722}, {.2126, .7152, .0722}, {.2126, .7152, .0722}};
+
+    for (int i = 0; i < this.imageHeight; i++) {
+      for (int j = 0; j < this.imageWidth; j++) {
+        temp[i][j] = this.multiplyMatrix(i, j, greyscale);
+      }
+    }
+
+    if (override) {
+      this.overwriteImage(temp);
+    }
+    return temp;
+  }
+
+  @Override
+  public Pixel[][] sharpen(boolean override) {
+    Pixel[][] temp = this.generateTemp();
+    double[][] sharpen = {{-.125, -.125, -.125, -.125, -.125}, {-.125, .25, .25, .25, -.125},
+            {-.125, .25, 1, .25, -.125}, {-.125, .25, .25, .25, -.125},
+            {-.125, -.125, -.125, -.125, -.125}};
+
+    for (int i = 0; i < this.imageHeight; i++) {
+      for (int j = 0; j < this.imageWidth; j++) {
+        temp[i][j] = this.applyFilter(i, j, sharpen);
+      }
+    }
+
+    if (override) {
+      this.overwriteImage(temp);
+    }
+    return temp;
+  }
+
+  @Override
+  public Pixel[][] blur(boolean override) {
+    Pixel[][] temp = this.generateTemp();
+    double[][] blur = {{.0625, .125, .0625}, {.125, .25, .125}, {.0625, .125, .0625}};
+
+    for (int i = 0; i < this.imageHeight; i++) {
+      for (int j = 0; j < this.imageWidth; j++) {
+        temp[i][j] = this.applyFilter(i, j, blur);
+      }
+    }
+
+    if (override) {
+      this.overwriteImage(temp);
+    }
+    return temp;
+  }
+
+  // applies a given filter for a given Pixel denoted by its x and y position on the image
+  // returns a new Pixel with the applied changes
+  private Pixel applyFilter(int x, int y, double[][] filter) throws IndexOutOfBoundsException {
+    int red = 0;
+    int blue = 0;
+    int green = 0;
+
+    int filterHalfSize = filter.length / 2;
+
+    int i = 0;
+    int j = 0;
+    while (i < filter.length) {
+      while (j < filter[0].length) {
+        try {
+          red += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("r")
+                  * filter[i][j];
+          green += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("g")
+                  * filter[i][j];
+          blue += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("b")
+                  * filter[i][j];
+          j++;
+        } catch (IllegalArgumentException ie) {
+          j++;
+        }
+      }
+      i++;
+    }
+    return new RGBPixel(x, y, this.getMaxValue(), red, green, blue);
+  }
+
+  // does matrix multiplication on the given pixel at its x and y location with another
+  // given matrix and return a new transformed pixel
+  // very specific for this assignment
+  private Pixel multiplyMatrix(int x, int y, double[][] filter) throws IllegalArgumentException {
+    if (filter.length != 3 && filter[0].length != 3) {
+      throw new IllegalArgumentException("Matrix for RGB color transformation must be 3x3!");
+    }
+
+    double[] oldPixel = {this.image[x][y].getColorValue("r"), this.image[x][y].getColorValue("g"),
+            this.image[x][y].getColorValue("b")};
+    double[] newPixel = new double[3];
+
+    for (int i = 0; i < filter.length; i++) {
+      for (int j = 0; j < filter[i].length; j++) {
+        newPixel[i] += filter[i][j] * oldPixel[j];
+      }
+    }
+    return new RGBPixel(x, y, this.getMaxValue(), (int) newPixel[0], (int) newPixel[1],
+            (int) newPixel[2]);
+  }
+
+  @Override
+  public Pixel[][] sepia(boolean override) {
+    Pixel[][] temp = this.generateTemp();
+    double[][] sepia = {{.393, .769, 0.189}, {.349, .686, .168}, {.272, .534, .131}};
+
+    for (int i = 0; i < this.imageHeight; i++) {
+      for (int j = 0; j < this.imageWidth; j++) {
+        temp[i][j] = this.multiplyMatrix(i, j, sepia);
+      }
+    }
+
+    if (override) {
+      this.overwriteImage(temp);
+    }
+    return temp;
+  }
+
   /**
    * Overwrites the current image with the given image.
    *
@@ -123,7 +244,7 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
    *
    * @param value color value that is desired to be set to
    * @return 0 if value is negative,maxVal if greater than maxVal, or value
-   *         if neither.
+   * if neither.
    */
   private int checkifLimits(int value) {
     if (value < 0) {

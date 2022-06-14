@@ -99,6 +99,13 @@ public interface ImageProcessor {
    */
   public Pixel[][] grayScaleHighlight(String color, boolean override);
 
+  public Pixel[][] greyscaleFilter(boolean override);
+
+  public Pixel[][] sharpen(boolean override);
+
+  public Pixel[][] blur(boolean override);
+
+  public Pixel[][] sepia(boolean override);
 }
 
 

@@ -3,11 +3,13 @@ package controller;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.function.Function;
 
-import util.Util;
+import model.Blur;
 import model.Brighten;
+import model.Greyscale;
 import model.HorizontalFlip;
 import model.ImageProcessor;
 import model.ImageProcessorModel;
@@ -15,8 +17,11 @@ import model.Load;
 import model.Operations;
 import model.Pixel;
 import model.Save;
+import model.Sepia;
+import model.Sharpen;
 import model.ValueComponent;
 import model.VerticalFlip;
+import util.Util;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
@@ -35,7 +40,7 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
   // needed to store all the different models that have operations applied to them
 
   Map<String, Function<Scanner, Operations>> operations =
-          new HashMap<String, Function<Scanner,Operations>>();
+          new HashMap<String, Function<Scanner, Operations>>();
 
   /**
    * This constructor instantiates the controller implementation for this class and
@@ -101,8 +106,15 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
       String in = scan.next();
 
       operations = new HashMap<String, Function<Scanner, Operations>>();
-      String sourceName = scan.next();
-      String destName = scan.next();
+      String sourceName;
+      String destName;
+      try {
+        sourceName = scan.next();
+        destName = scan.next();
+      } catch (NoSuchElementException e) {
+        throw new IllegalArgumentException("Missing input values!");
+      }
+
       boolean overrideSource;
       ImageProcessor saveModel;
       boolean changeSource = false;
@@ -141,16 +153,25 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
       operations.put("intensity-component", s -> new ValueComponent("Intensity",
               overrideSource));
       operations.put("brighten", s -> new Brighten(scan.nextInt(), overrideSource));
+      operations.put("sepia", s -> new Sepia(overrideSource));
+      operations.put("blur", s -> new Blur(overrideSource));
+      operations.put("sharpen", s -> new Sharpen(overrideSource));
+      operations.put("greyscale", s -> new Greyscale(overrideSource));
 
-      Function<Scanner, Operations> cmd =
-              operations.getOrDefault(in, null);
+      Function<Scanner, Operations> cmd;
+      try {
+        cmd = operations.getOrDefault(in, null);
+      } catch (NoSuchElementException e) {
+        throw new IllegalArgumentException("operation not found");
+      }
+
       if (cmd == null) {
         throw new IllegalArgumentException("error in parsing input");
       } else {
         operation = cmd.apply(scan);
         newEntry = operation.apply(this.model);
         view = new ImageProcessorTextView(
-                new ImageProcessorModel(newEntry,destName));
+                new ImageProcessorModel(newEntry, destName));
         view.renderImage();
       }
 

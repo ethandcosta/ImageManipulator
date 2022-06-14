@@ -49,6 +49,17 @@ public class MockModel extends AbstractImageProcessorModel {
     return null;
   }
 
+  @Override
+  public Pixel[][] greyscaleFilter(boolean override){return null;}
+
+  @Override
+  public Pixel[][] sharpen(boolean override){return null;}
+
+  @Override
+  public Pixel[][] blur(boolean override){return null;}
+
+  @Override
+  public Pixel[][] sepia(boolean override){return null;}
   /**
    * Retrieves the max value of the pixels in the image.
    *
