@@ -1,6 +1,6 @@
-# Assignment4-OOD
+# Assignment5-OOD
 
-## _The image sunset.ppm and all its derivatives used in this assignment are artistic properties under David Zhang._
+## _The image sunset.ppm and dragon.jpg and all its derivatives used in this assignment are artistic properties under David Zhang._
 
 ## _David Zhang gives access for these images to be used in this assignment and future iterations of this assignment._
 
@@ -45,6 +45,16 @@
 "save res/sunset-dummy.ppm sunset-combo"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+# The full program is complete and every feature should be able to work as intended
+
+## Changes made from Assignment4 to Assignment5:
+
+- Added a new interface for filterable operations which extends Operations for future-proofing later iterations of possbly additional filterable operations and conditions
+- Added a new abstract class for implementations of this filterable operations interface
+  due to the fact that all the filterable operations were similar
+- Added new lambda functions in our command design Operations map which can now be sensitive to reading the new commands
+- = Added tests for all new implementations
+
 ### All commands should be inputted in the same format as per the assignment **except** the brighten command where the increment value _must_ come after the source name and then the destination name.
 
 ##### PPM files in the res/ folder with the word "reference" in its name refers to a GIMP edited PPM file for comparison purposes.
@@ -78,8 +88,15 @@
 - interface Operations:
   Represents an operations function object which is mapped upon by String inputs to indicate commmands in this program. These operations follow the command design and are put in a hashmap and have fields designed to take the parameters needed to carry out transformations in the model.
 
+- interface FilterableOperations:
+  Represents an operations function object which can be described as applying some kind of matrix onto the image and doing some math to find the new mapped values of r, g, b for the pixels. Left blank for this current iteration but anticipated for converting or adding new
+  filterable operations which may have some additional feature vs regular Operations
+
 - class AbstractOperations:
-  Represents an abstraction of all the Operations function objects that we have so far in Assignment4
+  Represents an abstraction of all the Operations function objects that we have so far in Assignment5
+
+- class AbstractFilterableOperations
+  Represents an abstraction of all the FilterableOperations function objects that we have so far in Assignment5
 
 - class Brighten:
   Represents a function object that applies the function brighten on the model's image
@@ -98,6 +115,18 @@
 
 - class HorizontalFlip:
   Represents a function object that applies the function horizontal-flip on the model's image
+
+- class Blur:
+  Represents a function object that applies the function blur on the model's image
+
+- class Sharpen:
+  Represents a function object that applies the function sharpen on the model's image
+
+- class Sepia:
+  Represents a function object that applies the function sepia on the model's image
+
+- class Greyscale:
+  Represents a function object that applies the function greyscale on the model's image
 
 - class util:
   Represents a general utility class that checks for illogical states and arguments in our code and throws exceptions
@@ -134,6 +163,18 @@
 
 - class VerticalFlipTest:
   Tests the methods of the VerticalFlip class
+
+- class BlurTest:
+  Tests the methods of the Blur class
+
+- class SharpenTest:
+  Tests the methods of the Sharpen class
+
+- class SepiaTest:
+  Tests the methods of the Sepia class
+
+- class GreyscaleTest:
+  Tests the methods of the Greyscale class, tests are the same as luma-component
 
 - class UtilsTest:
   Tests the methods of the util class
