@@ -74,4 +74,11 @@ public class UtilTest {
     }
 
   }
+  @Test
+  public void testClampVal(){
+    assertEquals(10,testUtil.clampValue(0,10,20));
+    assertEquals(0,testUtil.clampValue(0,-10,20));
+    assertEquals(20,testUtil.clampValue(0,30,20));
+    assertEquals(20,testUtil.clampValue(0,20,20));
+  }
 }

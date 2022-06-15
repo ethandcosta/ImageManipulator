@@ -145,9 +145,9 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
   // applies a given filter for a given Pixel denoted by its x and y position on the image
   // returns a new Pixel with the applied changes
   private Pixel applyFilter(int x, int y, double[][] filter) throws IndexOutOfBoundsException {
-    int red = 0;
-    int blue = 0;
-    int green = 0;
+    double red = 0;
+    double blue = 0;
+    double green = 0;
 
     int filterHalfSize = filter.length / 2;
 
@@ -156,20 +156,21 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     while (i < filter.length) {
       while (j < filter[0].length) {
         try {
-          red += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("r")
+          red += image[x - filterHalfSize + i][y - filterHalfSize + j].getColorValue("r")
                   * filter[i][j];
-          green += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("g")
+          green += image[x - filterHalfSize + i][y - filterHalfSize + j].getColorValue("g")
                   * filter[i][j];
-          blue += image[x - filterHalfSize - i][y - filterHalfSize - j].getColorValue("b")
+          blue += image[x - filterHalfSize + i][y - filterHalfSize + j].getColorValue("b")
                   * filter[i][j];
           j++;
-        } catch (IllegalArgumentException ie) {
+        } catch (IndexOutOfBoundsException ie) {
           j++;
         }
       }
       i++;
+      j = 0;
     }
-    return new RGBPixel(x, y, this.getMaxValue(), red, green, blue);
+    return new RGBPixel(x, y, this.getMaxValue(), (int) red, (int) green, (int) blue);
   }
 
   // does matrix multiplication on the given pixel at its x and y location with another

@@ -157,7 +157,6 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
       operations.put("blur", s -> new Blur(overrideSource));
       operations.put("sharpen", s -> new Sharpen(overrideSource));
       operations.put("greyscale", s -> new Greyscale(overrideSource));
-
       Function<Scanner, Operations> cmd;
       try {
         cmd = operations.getOrDefault(in, null);
