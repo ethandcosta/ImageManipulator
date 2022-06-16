@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * This class represents an implementation of a sharpen image operation which
+ * is a function object that sharpens the image by applying a filter
+ * to each of the images pixels and creates a copy of the modified image
+ * with a new given name being the image name.
+ */
 public class Sharpen extends AbstractFilterableOperations {
 
   /**

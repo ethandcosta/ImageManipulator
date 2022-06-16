@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import util.ImageUtil;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,10 +19,12 @@ import static org.junit.Assert.fail;
  */
 public class SaveTest {
 
-  final int saveApplyCounter = 0;
+  final int saveApplyCounter = 11;
   Save test;
   ImageProcessor model;
   ImageProcessor smallModel;
+  ImageProcessor jpgModel;
+  ImageProcessor dragonModel;
 
   @Before
   public void init() {
@@ -28,9 +32,12 @@ public class SaveTest {
     test = new Save("res\\testSave.ppm", model, false);
     Pixel[][] image = {{new RGBPixel(0, 0, 255, 1, 2, 3),
             new RGBPixel(0, 1, 255, 4, 5, 6)}, {
-        new RGBPixel(1, 0, 255, 7, 8, 9),
+            new RGBPixel(1, 0, 255, 7, 8, 9),
             new RGBPixel(1, 1, 255, 10, 11, 12)}};
     smallModel = new ImageProcessorModel(image, "small-model");
+    jpgModel = new ImageProcessorModel(image, "jpgModel");
+    Pixel[][] dragon = ImageUtil.processBufferedImage("res\\dragon-copy.jpg");
+    dragonModel = new ImageProcessorModel(dragon, "dragon");
   }
 
   @Test
@@ -91,6 +98,29 @@ public class SaveTest {
       fail();
     }
 
+    Path pDragon = Paths.get("res\\dragon-copy.ppm");
+    assertFalse(Files.exists(pDragon));
+    test = new Save("res\\dragon-copy.ppm", smallModel, false);
+    test.apply(model);
+    assertTrue(Files.exists(pDragon));
+  }
 
+  @Test
+  public void applyJPG() {
+    // can only be tested once and then change the saveApplyCounter to a different number to
+    // save to a new file with no errors
+    Path p = Paths.get("res\\testing-saveJPG" + saveApplyCounter + ".jpg");
+    assertFalse(Files.exists(p));
+    test = new Save("res\\testing-saveJPG" + saveApplyCounter + ".jpg", jpgModel,
+            false);
+    test.apply(model);
+    assertTrue(Files.exists(p));
+
+    Path pDragon = Paths.get("res\\dragon-copy" + saveApplyCounter + ".jpg");
+    assertFalse(Files.exists(pDragon));
+    test = new Save("res\\dragon-copy" + saveApplyCounter + ".jpg", dragonModel,
+            false);
+    test.apply(dragonModel);
+    assertTrue(Files.exists(pDragon));
   }
 }

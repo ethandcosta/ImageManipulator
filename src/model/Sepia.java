@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * This class represents an implementation of a sepia image operation which
+ * is a function object that turns the color of the image to a sepia tone
+ * by applying a matrix to each of the images pixels and creates a copy of the modified image
+ * with a new given name being the image name.
+ */
 public class Sepia extends AbstractFilterableOperations {
 
   /**

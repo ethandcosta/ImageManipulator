@@ -3,6 +3,8 @@ package model;
 import org.junit.Before;
 import org.junit.Test;
 
+import util.ImageUtil;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -16,6 +18,7 @@ public class LoadTest {
   @Before
   public void init() {
     test = new Load("res/sunset.ppm", "Valid", true);
+    model = new ImageProcessorModel();
   }
 
   @Test
@@ -59,10 +62,64 @@ public class LoadTest {
       System.out.println("Wrong exception thrown");
       fail();
     }
+  }
+
+  @Test
+  public void apply() {
+    try {
+      test = new Load("res/test2.ppm", "valid", true);
+      Pixel[][] expected = {{new RGBPixel(0, 0, 255, 1, 2,
+              3), new RGBPixel(0, 1, 255, 4, 5,
+              6)}, {new RGBPixel(1, 0, 255, 7, 8,
+              9), new RGBPixel(1, 1, 255, 10, 11,
+              12)}};
+      Pixel[][] result = test.apply(model);
+      for (int i = 0; i < result.length; i++) {
+        for (int j = 0; j < result[0].length; j++) {
+          assertEquals(expected[i][j].getColorValue("r"), result[i][j].getColorValue("r"));
+          assertEquals(expected[i][j].getColorValue("g"), result[i][j].getColorValue("g"));
+          assertEquals(expected[i][j].getColorValue("b"), result[i][j].getColorValue("b"));
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("No error should be thrown");
+      fail();
+    }
 
     try {
-      test = new Load("res/sunset.ppm", "Valid", true);
-      // test.apply(model);
+      test = new Load("res\\dragon-copy.jpg", "Dragon", true);
+      test.apply(model);
+      Brighten brighten = new Brighten(255, false);
+      Pixel[][] result = brighten.apply(model);
+      for (int i = 0; i < result.length; i++) {
+        for (int j = 0; j < result[0].length; j++) {
+          assertEquals(255, result[i][j].getColorValue("r"));
+          assertEquals(255,  result[i][j].getColorValue("g"));
+          assertEquals(255, result[i][j].getColorValue("b"));
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("No error should be thrown");
+      fail();
+    }
+  }
+
+  @Test
+  public void testJPG(){
+    try {
+      Pixel[][] ppmVersion = ImageUtil.processPPM("res/sunset.ppm");
+      test = new Load("res\\sunset.jpg", "sunset", true);
+      Pixel[][] result = test.apply(model);
+      for (int i = 0; i < result.length; i++) {
+        for (int j = 0; j < result[0].length; j++) {
+          assertEquals(ppmVersion[i][j].getColorValue("r"),
+                  result[i][j].getColorValue("r"),20);
+          assertEquals(ppmVersion[i][j].getColorValue("g"),
+                  result[i][j].getColorValue("g"),20);
+          assertEquals(ppmVersion[i][j].getColorValue("b"),
+                  result[i][j].getColorValue("b"),20);
+        }
+      }
     } catch (Exception e) {
       System.out.println("No error should be thrown");
       fail();

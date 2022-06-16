@@ -26,6 +26,6 @@ public class Save extends AbstractOperations {
 
   @Override
   public Pixel[][] apply(ImageProcessor image) throws IllegalStateException {
-    return image.save(this.path, this.model);
+     return image.save(this.path, this.model);
   }
 }

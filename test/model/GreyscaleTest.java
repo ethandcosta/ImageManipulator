@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the Greyscale function object.
+ */
 public class GreyscaleTest {
 
   Operations greyscale;

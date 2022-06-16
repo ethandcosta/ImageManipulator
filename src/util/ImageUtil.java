@@ -1,8 +1,12 @@
 package util;
 
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 
 import model.Pixel;
 import model.RGBPixel;
@@ -63,4 +67,34 @@ public class ImageUtil {
     }
     return arr;
   }
+
+  /**
+   * This method processes a non-PPM file into a Pixel[][] directly by accessing
+   * each RGB value of the non-PPM image file as a BufferedImage.
+   *
+   * @param filename the file name where the file being read is contained
+   * @return a 2D Pixel array that will be housed in the model
+   */
+  public static Pixel[][] processBufferedImage(String filename) {
+    Pixel[][] arr;
+    try {
+      FileInputStream inputStream = new FileInputStream(filename);
+      BufferedImage inputImage = ImageIO.read(inputStream);
+      arr = new Pixel[inputImage.getHeight()][inputImage.getWidth()];
+      for (int i = 0; i < arr.length; i++) {
+        for (int j = 0; j < arr[0].length; j++) {
+          int rgb = inputImage.getRGB(j, i);
+          int red = (rgb >> 16) & 0x000000FF;
+          int green = (rgb >> 8) & 0x000000FF;
+          int blue = (rgb) & 0x000000FF;
+          arr[i][j] = new RGBPixel(j, i, 255, red, green, blue);
+        }
+      }
+    } catch (IOException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+    return arr;
+  }
+
+
 }

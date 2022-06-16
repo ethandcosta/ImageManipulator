@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * This class represents an implementation of a greyscale image operation which
+ * is a function object that greyscales a given image in the model by fixing a pixels channels
+ * of a given image to the luma of that pixel.
+ * This will create a copy of the modified image with the new given name being the image name.
+ */
 public class Greyscale extends AbstractFilterableOperations {
 
   /**

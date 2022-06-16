@@ -1,10 +1,15 @@
 package model;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import javax.imageio.ImageIO;
 
 /**
  * This class represents the model of the image processor program. As the model, the logic
@@ -294,7 +299,14 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
 
   @Override
   public Pixel[][] save(String path, ImageProcessor model) {
+    if (path.substring(path.indexOf(".")).equals(".ppm")) {
+      return this.savePPM(path, model);
+    } else {
+      return this.saveBufferedImage(path, model);
+    }
+  }
 
+  private Pixel[][] savePPM(String path, ImageProcessor model) {
     if (path.charAt(path.length() - 1) == '\\') {
       path = path.substring(0, path.length() - 1);
     }
@@ -327,9 +339,43 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     return this.image;
   }
 
+  private Pixel[][] saveBufferedImage(String path, ImageProcessor model) {
+    String fileType = path.substring(path.indexOf(".") + 1);
+    try {
+      if (path.charAt(path.length() - 1) == '\\') {
+        path = path.substring(0, path.length() - 1);
+      }
+      Path paths = Paths.get(path);
+      Files.deleteIfExists(paths);
+      Files.writeString(paths, "");
+      File outputFile = new File(path);
+
+      BufferedImage outputImage = new BufferedImage(model.getImage()[0].length,
+              model.getImage().length, BufferedImage.TYPE_INT_RGB);
+      for (int i = 0; i < model.getImage().length; i++) {
+        for (int j = 0; j < model.getImage()[0].length; j++) {
+          Color color = new Color(model.getImage()[i][j].getColorValue("r"),
+                  model.getImage()[i][j].getColorValue("g"),
+                  model.getImage()[i][j].getColorValue("b"));
+          outputImage.setRGB(j, i, color.getRGB());
+
+        }
+      }
+      ImageIO.write(outputImage, fileType, outputFile);
+    } catch (IOException ie) {
+      throw new IllegalStateException("Transmission error upon writing file");
+    }
+    return this.image;
+  }
+
   @Override
-  public Pixel[][] load(String sourceName, String path) {
-    Pixel[][] temp = util.ImageUtil.processPPM(path);
+  public Pixel[][] load(String sourceName, String path) throws IllegalArgumentException {
+    Pixel[][] temp;
+    if (path.substring(path.indexOf(".")).equals(".ppm")) {
+      temp = util.ImageUtil.processPPM(path);
+    } else {
+      temp = util.ImageUtil.processBufferedImage(path);
+    }
     this.overwriteImage(temp);
     this.imageName = sourceName;
     this.imageHeight = this.image.length;

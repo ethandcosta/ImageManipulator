@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the Blur function object.
+ */
 public class BlurTest {
 
   Operations blur;
