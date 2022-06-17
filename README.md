@@ -19,9 +19,9 @@
 - Updated CLI scripts for the sunset image to save as new image formats
 - Added a new dragon image for testing
 - Added new methods in the ImageUtils class for parsing a non-PPM image into a Pixel 2D array and turning a Pixel 2D array back into the specified image format
-- = Added tests for all new implementations
+- Added tests for all new implementations
 
-### Provide the following below as arguments in the command line:
+### Provide the following below as arguments in the program arguments in IntelliJ (CLI):
 
 **Note: IT'S VERY IMPORTANT THAT THE QUOTATION MARKS REMAIN WHEN PASSING IN THE ARGUMENTS!**
 **Note: IT'S ALSO VERY IMPORTANT THAT WHEN RUNNING THE PROGRAM WITHOUT CLI ARGUMENTS AND TYPING IN THE CONSOLE, THAT THE SAME SYNTAX FOR THE COMMANDS BELOW ARE FOLLOWED _EXCEPT_ THAT THE QUOTES ARE REMOVED**
@@ -65,9 +65,11 @@
 "save res/sunset-dummy.ppm sunset-combo"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-### New support for text file parsing in Assignment5 (pass this line below as a command line argument)
+### New support for text file parsing in Assignment5 (pass this line below as a command line argument in IntelliJ)
 
-**The same syntax rules follow from the CLI arguments above and make sure script.txt stays in res/ direction**
+#### Note: This syntax cannot be passed for no-args command-lines (default system console/terminal) so do not pass it as a argument when running the JAR executable.
+
+**The same syntax rules follow from the CLI arguments above and make sure script.txt stays in res/ directory**
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 "-file res/script.txt"
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

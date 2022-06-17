@@ -1,6 +1,7 @@
 load res/dragon.jpg dragon
 save res/dragon-immeadiate.ppm dragon
 sepia dragon dragon-sepia
+greyscale dragon dragon-greyscale
 blur dragon dragon-blur
 blur dragon-blur dragon-blur-twice
 horizontal-flip dragon dragon-horizontal
@@ -27,6 +28,7 @@ save res/dragon-green.bmp dragon-green-filter
 save res/dragon-red.bmp dragon-red-filter
 save res/dragon-blue.bmp dragon-blue-filter
 save res/dragon-luma.bmp dragon-luma-filter
+save res/dragon-greyscale.png dragon-greyscale
 save res/dragon-value.bmp dragon-value-comp
 save res/dragon-dummy.png dragon
 sepia dragon dragon-combo
