@@ -1,15 +1,7 @@
 package model;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import javax.imageio.ImageIO;
+import util.ImageUtil;
+import util.Util;
 
 /**
  * This class represents the model of the image processor program. As the model, the logic
@@ -83,9 +75,9 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
           default:
             break;
         }
-        temp[i][j].setColor("b", val);
-        temp[i][j].setColor("r", val);
-        temp[i][j].setColor("g", val);
+        temp[i][j].setColor("b", Util.clampValue(0, val, this.getMaxValue()));
+        temp[i][j].setColor("r", Util.clampValue(0, val, this.getMaxValue()));
+        temp[i][j].setColor("g", Util.clampValue(0, val, this.getMaxValue()));
       }
     }
     if (override) {
@@ -115,9 +107,8 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
   public Pixel[][] sharpen(boolean override) {
     Pixel[][] temp = this.generateTemp();
     double[][] sharpen = {{-.125, -.125, -.125, -.125, -.125}, {-.125, .25, .25, .25, -.125},
-            {-.125, .25, 1, .25, -.125}, {-.125, .25, .25, .25, -.125},
-            {-.125, -.125, -.125, -.125, -.125}};
-
+                          {-.125, .25, 1, .25, -.125}, {-.125, .25, .25, .25, -.125},
+                          {-.125, -.125, -.125, -.125, -.125}};
     for (int i = 0; i < this.imageHeight; i++) {
       for (int j = 0; j < this.imageWidth; j++) {
         temp[i][j] = this.applyFilter(i, j, sharpen);
@@ -175,7 +166,10 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
       i++;
       j = 0;
     }
-    return new RGBPixel(x, y, this.getMaxValue(), (int) red, (int) green, (int) blue);
+    return new RGBPixel(x, y, this.getMaxValue(),
+            Util.clampValue(0, (int) red, this.getMaxValue()),
+            Util.clampValue(0, (int) green, this.getMaxValue()),
+            Util.clampValue(0, (int) blue, this.getMaxValue()));
   }
 
   // does matrix multiplication on the given pixel at its x and y location with another
@@ -195,8 +189,10 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
         newPixel[i] += filter[i][j] * oldPixel[j];
       }
     }
-    return new RGBPixel(x, y, this.getMaxValue(), (int) newPixel[0], (int) newPixel[1],
-            (int) newPixel[2]);
+    return new RGBPixel(x, y, this.getMaxValue(),
+            Util.clampValue(0, (int) newPixel[0], this.getMaxValue()),
+            Util.clampValue(0, (int) newPixel[1], this.getMaxValue()),
+            Util.clampValue(0, (int) newPixel[2], this.getMaxValue()));
   }
 
   @Override
@@ -231,35 +227,18 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     Pixel[][] temp = this.generateTemp();
     for (int i = 0; i < imageHeight; i++) {
       for (int j = 0; j < imageWidth; j++) {
-        temp[i][j].setColor("r", this.checkifLimits(image[i][j].getColorValue("r")
-                + increment));
-        temp[i][j].setColor("g", this.checkifLimits(image[i][j].getColorValue("g")
-                + increment));
-        temp[i][j].setColor("b", this.checkifLimits(image[i][j].getColorValue("b")
-                + increment));
+        temp[i][j].setColor("r", Util.clampValue(0, image[i][j].getColorValue("r")
+                + increment, 255));
+        temp[i][j].setColor("g", Util.clampValue(0, image[i][j].getColorValue("g")
+                + increment, 255));
+        temp[i][j].setColor("b", Util.clampValue(0, image[i][j].getColorValue("b")
+                + increment, 255));
       }
     }
     if (override) {
       this.overwriteImage(temp);
     }
     return temp;
-  }
-
-  /**
-   * Makes sure set color value does not fall out of bounds.
-   *
-   * @param value color value that is desired to be set to
-   * @return 0 if value is negative,maxVal if greater than maxVal, or value
-   * if neither.
-   */
-  private int checkifLimits(int value) {
-    if (value < 0) {
-      return 0;
-    } else if (value > maxValue) {
-      return maxValue;
-    } else {
-      return value;
-    }
   }
 
   @Override
@@ -299,75 +278,17 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
 
   @Override
   public Pixel[][] save(String path, ImageProcessor model) {
-    if (path.substring(path.indexOf(".")).equals(".ppm")) {
-      return this.savePPM(path, model);
-    } else {
-      return this.saveBufferedImage(path, model);
-    }
-  }
 
-  private Pixel[][] savePPM(String path, ImageProcessor model) {
     if (path.charAt(path.length() - 1) == '\\') {
       path = path.substring(0, path.length() - 1);
     }
 
-    Path paths = Paths.get(path);
-
-    try {
-      Files.deleteIfExists(paths);
-
-      // write the header
-      StringBuilder fileWriter = new StringBuilder();
-      fileWriter.append("P3\n")
-              .append(model.getImage()[0].length)
-              .append(" ")
-              .append(model.getImage().length)
-              .append("\n")
-              .append(model.getMaxValue())
-              .append("\n");
-      for (int i = 0; i < model.getImage().length; i++) {
-        for (int j = 0; j < model.getImage()[0].length; j++) {
-          fileWriter.append(model.getImage()[i][j].getColorValue("r") + "\n");
-          fileWriter.append(model.getImage()[i][j].getColorValue("g") + "\n");
-          fileWriter.append(model.getImage()[i][j].getColorValue("b") + "\n");
-        }
-      }
-      Files.writeString(paths, fileWriter.toString(), StandardCharsets.UTF_8);
-    } catch (IOException ie) {
-      throw new IllegalStateException("Transmission error upon writing file");
-    }
-    return this.image;
-  }
-
-  private Pixel[][] saveBufferedImage(String path, ImageProcessor model) {
     String fileType = path.substring(path.indexOf(".") + 1);
-    try {
-      if (path.charAt(path.length() - 1) == '\\') {
-        path = path.substring(0, path.length() - 1);
-      }
-      Path paths = Paths.get(path);
-      Files.deleteIfExists(paths);
-      Files.writeString(paths, "");
-      File outputFile = new File(path);
 
-      BufferedImage outputImage = new BufferedImage(model.getImage()[0].length,
-              model.getImage().length, BufferedImage.TYPE_INT_RGB);
-      for (int i = 0; i < model.getImage().length; i++) {
-        for (int j = 0; j < model.getImage()[0].length; j++) {
-          int red = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("r"),
-                  255);
-          int green = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("g"),
-                  255);
-          int blue = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("b"),
-                  255);
-          Color color = new Color(red, green, blue);
-          outputImage.setRGB(j, i, color.getRGB());
-
-        }
-      }
-      ImageIO.write(outputImage, fileType, outputFile);
-    } catch (IOException ie) {
-      throw new IllegalStateException("Transmission error upon writing file");
+    if (fileType.equals("ppm")) {
+      ImageUtil.savePPM(path, model);
+    } else {
+      ImageUtil.saveBufferedImage(path, model);
     }
     return this.image;
   }

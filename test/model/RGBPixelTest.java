@@ -38,8 +38,8 @@ public class RGBPixelTest {
 
   @Test
   public void testGetValue() {
-    assertEquals(255, red.getValue());
-    assertEquals(255, black.getValue());
+    assertEquals(255, red.getValue(), 1);
+    assertEquals(0, black.getValue(), 1);
   }
 
   @Test

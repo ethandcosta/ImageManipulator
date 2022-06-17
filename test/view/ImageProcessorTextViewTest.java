@@ -108,7 +108,7 @@ public class ImageProcessorTextViewTest {
       error.renderMessage("Testing");
       fail();
     } catch (IllegalStateException ie) {
-      assertEquals("Corrupt exception.", ie.getMessage());
+      assertEquals("Transmission error\nCorrupt exception.", ie.getMessage());
     } catch (Exception e) {
       System.out.println("Wrong exception thrown");
       fail();
@@ -142,7 +142,7 @@ public class ImageProcessorTextViewTest {
       Appendable appendable2 = new StringBuilder();
       validTest = new ImageProcessorTextView(appendable2, standardModel3);
       validTest.renderImage();
-      String test = "P3\n2 2\n255\n14\n9\n200\n34\n45\n90\n34\n188\n180\n200\n12\n103\n";
+      String test = "P3\n2 2\n255\n (14,9,200)  (34,45,90) \n (34,188,180)  (200,12,103) \n";
       assertEquals(test, appendable2.toString());
     } catch (IllegalStateException ie) {
       fail();

@@ -1,14 +1,20 @@
 package util;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import model.ImageProcessor;
 import model.Pixel;
 import model.RGBPixel;
 
@@ -98,5 +104,77 @@ public class ImageUtil {
     return arr;
   }
 
+  /**
+   * This method is a general-purpose I/O method that handles saving PPM images to the system
+   * given a particular model to save and a location in the system to save it. It is heavily
+   * used by the model for the save operation.
+   * @param path the file path to which the PPM will be stored on the system
+   * @param model the model which houses the image that will be saved as a PPM
+   * @throws IllegalStateException if the method encounters a transmission problem
+   */
+  public static void savePPM(String path, ImageProcessor model) throws IllegalStateException {
+    try {
+      Path paths = Paths.get(path);
+      Files.deleteIfExists(paths);
 
+      // write the header
+      StringBuilder fileWriter = new StringBuilder();
+      fileWriter.append("P3\n")
+              .append(model.getImage()[0].length)
+              .append(" ")
+              .append(model.getImage().length)
+              .append("\n")
+              .append(model.getMaxValue())
+              .append("\n");
+      for (int i = 0; i < model.getImage().length; i++) {
+        for (int j = 0; j < model.getImage()[0].length; j++) {
+          fileWriter.append(model.getImage()[i][j].getColorValue("r") + "\n");
+          fileWriter.append(model.getImage()[i][j].getColorValue("g") + "\n");
+          fileWriter.append(model.getImage()[i][j].getColorValue("b") + "\n");
+        }
+      }
+      Files.writeString(paths, fileWriter.toString(), StandardCharsets.UTF_8);
+    } catch (IOException ie) {
+      throw new IllegalStateException("Transmission error upon writing file");
+    }
+  }
+
+  /**
+   * This method is a general-purpose I/O method that handles saving non-PPM images to the system
+   * given a particular model to save and a location in the system to save it. It is heavily
+   * used by the model for the save operation.
+   * @param path the file path to which the PPM will be stored on the system
+   * @param model the model which houses the image that will be saved as whatever filetype
+   *              the path has specified
+   * @throws IllegalStateException if the method encounters a transmission problem
+   */
+  public static void saveBufferedImage(String path, ImageProcessor model)
+          throws IllegalStateException {
+    String fileType = path.substring(path.indexOf(".") + 1);
+    try {
+      Path paths = Paths.get(path);
+      Files.deleteIfExists(paths);
+      Files.writeString(paths, "");
+      File outputFile = new File(path);
+
+      BufferedImage outputImage = new BufferedImage(model.getImage()[0].length,
+              model.getImage().length, BufferedImage.TYPE_INT_RGB);
+      for (int i = 0; i < model.getImage().length; i++) {
+        for (int j = 0; j < model.getImage()[0].length; j++) {
+          int red = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("r"),
+                  255);
+          int green = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("g"),
+                  255);
+          int blue = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("b"),
+                  255);
+          Color color = new Color(red, green, blue);
+          outputImage.setRGB(j, i, color.getRGB());
+
+        }
+      }
+      ImageIO.write(outputImage, fileType, outputFile);
+    } catch (IOException ie) {
+      throw new IllegalStateException("Transmission error upon writing file");
+    }
+  }
 }

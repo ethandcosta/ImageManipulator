@@ -1,7 +1,10 @@
 package util;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import model.ImageProcessor;
+import model.ImageProcessorModel;
 import model.Pixel;
 import model.RGBPixel;
 
@@ -12,6 +15,20 @@ import static org.junit.Assert.fail;
  * Tests the Image Utils class.
  */
 public class ImageUtilTest {
+
+  ImageProcessor ppmModel;
+  ImageProcessor bufferedImageModel;
+
+  @Before
+  public void init() {
+    Pixel[][] ppmImage = {{new RGBPixel(0, 0, 255, 255,
+            125, 125), new RGBPixel(1, 0, 255, 125,
+            255, 125)}, {new RGBPixel(0, 1, 255, 125,
+            125, 255), new RGBPixel(1, 1, 255, 255,
+            255, 255)}};
+    ppmModel = new ImageProcessorModel(ppmImage, "ppmModel");
+    bufferedImageModel = new ImageProcessorModel(ppmImage, "buffModel");
+  }
 
   @Test
   public void processPPM() {
@@ -63,6 +80,42 @@ public class ImageUtilTest {
     expected[0][1] = new RGBPixel(1, 0, 255, 0, 0, 255);
     expected[1][0] = new RGBPixel(0, 1, 255, 0, 150, 0);
     expected[1][1] = new RGBPixel(1, 1, 255, 125, 0, 125);
+    for (int i = 0; i < reading.length; i++) {
+      for (int j = 0; j < reading[0].length; j++) {
+        assertEquals(expected[i][j].getColorValue("r"), reading[i][j].getColorValue("r"), 1);
+        assertEquals(expected[i][j].getColorValue("g"), reading[i][j].getColorValue("g"),1);
+        assertEquals(expected[i][j].getColorValue("b"), reading[i][j].getColorValue("b"), 1);
+      }
+    }
+  }
+
+  @Test
+  public void savePPM() {
+    ImageUtil.savePPM("res/testImageUtilSavePPM.ppm", ppmModel);
+    Pixel[][] reading = ImageUtil.processPPM("res/testImageUtilSavePPM.ppm");
+    Pixel[][] expected = new Pixel[2][2];
+    expected[0][0] = new RGBPixel(0, 0, 255, 255, 125, 125);
+    expected[0][1] = new RGBPixel(1, 0, 255, 125, 255, 125);
+    expected[1][0] = new RGBPixel(0, 1, 255, 125, 125, 255);
+    expected[1][1] = new RGBPixel(1, 1, 255, 255, 255, 255);
+    for (int i = 0; i < reading.length; i++) {
+      for (int j = 0; j < reading[0].length; j++) {
+        assertEquals(expected[i][j].getColorValue("r"), reading[i][j].getColorValue("r"), 1);
+        assertEquals(expected[i][j].getColorValue("g"), reading[i][j].getColorValue("g"),1);
+        assertEquals(expected[i][j].getColorValue("b"), reading[i][j].getColorValue("b"), 1);
+      }
+    }
+  }
+
+  @Test
+  public void saveBufferedImage() {
+    ImageUtil.saveBufferedImage("res/testImageUtilSavePPM.png", bufferedImageModel);
+    Pixel[][] reading = ImageUtil.processBufferedImage("res/testImageUtilSavePPM.png");
+    Pixel[][] expected = new Pixel[2][2];
+    expected[0][0] = new RGBPixel(0, 0, 255, 255, 125, 125);
+    expected[0][1] = new RGBPixel(1, 0, 255, 125, 255, 125);
+    expected[1][0] = new RGBPixel(0, 1, 255, 125, 125, 255);
+    expected[1][1] = new RGBPixel(1, 1, 255, 255, 255, 255);
     for (int i = 0; i < reading.length; i++) {
       for (int j = 0; j < reading[0].length; j++) {
         assertEquals(expected[i][j].getColorValue("r"), reading[i][j].getColorValue("r"), 1);

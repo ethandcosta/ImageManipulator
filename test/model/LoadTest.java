@@ -110,14 +110,18 @@ public class LoadTest {
       Pixel[][] ppmVersion = ImageUtil.processPPM("res/sunset.ppm");
       test = new Load("res\\sunset.jpg", "sunset", true);
       Pixel[][] result = test.apply(model);
+
+      // test for compression issue with sunset.jpg to sunset.ppm
+      Operations testSave = new Save("res\\sunset-copy.ppm", model, false);
+      testSave.apply(model);
       for (int i = 0; i < result.length; i++) {
         for (int j = 0; j < result[0].length; j++) {
           assertEquals(ppmVersion[i][j].getColorValue("r"),
-                  result[i][j].getColorValue("r"), 20);
+                  result[i][j].getColorValue("r"), 5);
           assertEquals(ppmVersion[i][j].getColorValue("g"),
-                  result[i][j].getColorValue("g"), 20);
+                  result[i][j].getColorValue("g"), 5);
           assertEquals(ppmVersion[i][j].getColorValue("b"),
-                  result[i][j].getColorValue("b"), 20);
+                  result[i][j].getColorValue("b"), 5);
         }
       }
     } catch (Exception e) {

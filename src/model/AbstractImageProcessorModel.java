@@ -25,6 +25,11 @@ public abstract class AbstractImageProcessorModel implements ImageProcessor {
    * receives the image.
    */
   protected AbstractImageProcessorModel() {
+    this.imageHeight = 0;
+    this.imageWidth = 0;
+    this.imageName = "";
+    this.image = new Pixel[0][0];
+    this.maxValue = 255;
     this.supportedOps = new ArrayList<Operations>();
   }
 
