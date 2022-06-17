@@ -1,72 +1,37 @@
-"load res/sunset.ppm sunset"
-"horizontal-flip sunset sunset-horizontal"
-"brighten sunset sunset-brighten-10 10"
-"brighten sunset sunset-brighten-25 25"
-"brighten sunset sunset-darken-10 -10"
-"brighten sunset sunset-darken-25 -25"
-"vertical-flip sunset sunset-vertical"
-"red-component sunset sunset-red-component"
-"green-component sunset sunset-green-component"
-"blue-component sunset sunset-blue-component"
-"value-component sunset sunset-value-component"
-"luma-component sunset sunset-luma-component"
-"intensity-component sunset sunset-intensity-component"
-"horizontal-flip sunset-vertical sunset-vertical-horizontal"
-"vertical-flip sunset-horizontal sunset-horizontal-vertical"
-"brighten sunset sunset-combo 13"
-"horizontal-flip sunset-combo sunset-combo"
-"vertical-flip sunset-combo sunset-combo"
-"luma-component sunset-combo sunset-combo"
-"save res/sunset-combo.ppm sunset-combo"
-"save res/sunset-vertical.ppm sunset-vertical"
-"save res/sunset-horizontal.ppm sunset-horizontal"
-"save res/sunset-green.ppm sunset-green-component"
-"save res/sunset-brighten-10.ppm sunset-brighten-10"
-"save res/sunset-darken-10.ppm sunset-darken-10"
-"save res/sunset-darken-25.ppm sunset-darken-25"
-"save res/sunset-brighten-25.ppm sunset-brighten-25"
-"save res/sunset-red.ppm sunset-red-component"
-"save res/sunset-blue.ppm sunset-blue-component"
-"save res/sunset-luma.ppm sunset-luma-component"
-"save res/sunset-value.ppm sunset-value-component"
-"brighten sunset sunset-dummy -45"
-"save res/sunset-dummy.ppm sunset-dummy"
-"save res/sunset-dummy.ppm sunset-combo"
-"save res/sunset.jpg sunset"
-"save res/sunset.png sunset"
-"save res/sunset.bmp sunset"
-"load res/dragon.jpg dragon"
-"sepia dragon dragon-sepia"
-"blur dragon dragon-blur"
-"blur dragon-blur dragon-blur-twice"
-"sharpen dragon dragon-sharp"
-"horizontal-flip dragon dragon-horizontal"
-"vertical-flip dragon dragon-vertical"
-"luma-component dragon dragon-luma-filter"
-"red-component dragon dragon-red-filter"
-"green-component dragon dragon-green-filter"
-"blue-component dragon dragon-blue-filter"
-"value-component dragon dragon-value-comp"
-"brighten dragon dragon-brighten 15"
-"brighten dragon dragon-darken -15"
-"save res/dragon.ppm dragon"
-"save res/dragon-copy.jpg dragon"
-"save res/dragon-sharpen.jpg dragon-sharpen"
-"save res/dragon-blur-twice.jpg dragon-blur-twice"
-"save res/dragon-blur.jpg dragon-blur"
-"save res/dragon-horizontal.jpg dragon-horizontal"
-"save res/dragon-brighten.png dragon-brighten"
-"save res/dragon-darken.png dragon-darken"
-"save res/dragon-vertical.png dragon-vertical"
-"save res/dragon-green.bmp dragon-green-filter"
-"save res/dragon-red.bmp dragon-red-filter"
-"save res/dragon-blue.bmp dragon-blue-filter"
-"save res/dragon-luma.bmp dragon-luma-filter"
-"save res/dragon-value.bmp dragon-value-comp"
-"save res/dragon-dummy.png dragon"
-"sepia dragon dragon-combo"
-"horizontal-flip dragon-combo dragon-combo"
-"save res/dragon-dummy.png dragon-combo"
-"save res/dragon.jpg dragon"
-"save res/dragon.png dragon"
-"save res/dragon.bmp dragon"
+load res/dragon.jpg dragon
+save res/dragon-immeadiate.ppm dragon
+sepia dragon dragon-sepia
+blur dragon dragon-blur
+blur dragon-blur dragon-blur-twice
+horizontal-flip dragon dragon-horizontal
+vertical-flip dragon dragon-vertical
+luma-component dragon dragon-luma-filter
+red-component dragon dragon-red-filter
+green-component dragon dragon-green-filter
+blue-component dragon dragon-blue-filter
+value-component dragon dragon-value-comp
+brighten dragon dragon-brighten 15
+brighten dragon dragon-darken -15
+sharpen dragon dragon-sharpen
+save res/dragon.ppm dragon
+save res/dragon-copy.jpg dragon
+save res/dragon-sharpen.jpg dragon-sharpen
+save res/dragon-blur-twice.jpg dragon-blur-twice
+save res/dragon-blur.jpg dragon-blur
+save res/dragon-sepia.png dragon-sepia
+save res/dragon-horizontal.jpg dragon-horizontal
+save res/dragon-brighten.png dragon-brighten
+save res/dragon-darken.png dragon-darken
+save res/dragon-vertical.png dragon-vertical
+save res/dragon-green.bmp dragon-green-filter
+save res/dragon-red.bmp dragon-red-filter
+save res/dragon-blue.bmp dragon-blue-filter
+save res/dragon-luma.bmp dragon-luma-filter
+save res/dragon-value.bmp dragon-value-comp
+save res/dragon-dummy.png dragon
+sepia dragon dragon-combo
+horizontal-flip dragon-combo dragon-combo
+save res/dragon-dummy.png dragon-combo
+save res/dragon.jpg dragon
+save res/dragon.png dragon
+save res/dragon.bmp dragon

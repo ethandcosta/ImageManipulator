@@ -2,8 +2,6 @@ package util;
 
 import org.junit.Test;
 
-import java.io.File;
-
 import model.Pixel;
 import model.RGBPixel;
 
@@ -59,20 +57,18 @@ public class ImageUtilTest {
 
   @Test
   public void successfulJPGRead() {
-    Pixel[][] reading = ImageUtil.processBufferedImage("res/test.jpg");
+    Pixel[][] reading = ImageUtil.processBufferedImage("res/testProcessBufferImage.bmp");
     Pixel[][] expected = new Pixel[2][2];
-    expected[0][0] = new RGBPixel(0, 0, 255, 1, 2, 3);
-    expected[0][1] = new RGBPixel(0, 1, 255, 4, 5, 6);
-    expected[1][0] = new RGBPixel(1, 0, 255, 7, 8, 9);
-    expected[1][1] = new RGBPixel(1, 1, 255, 10, 11, 12);
+    expected[0][0] = new RGBPixel(0, 0, 255, 255, 0, 0);
+    expected[0][1] = new RGBPixel(1, 0, 255, 0, 0, 255);
+    expected[1][0] = new RGBPixel(0, 1, 255, 0, 150, 0);
+    expected[1][1] = new RGBPixel(1, 1, 255, 125, 0, 125);
     for (int i = 0; i < reading.length; i++) {
       for (int j = 0; j < reading[0].length; j++) {
-        assertEquals(reading[i][j].getColorValue("r"), expected[i][j].getColorValue("r"));
-        assertEquals(reading[i][j].getColorValue("g"), expected[i][j].getColorValue("g"));
-        assertEquals(reading[i][j].getColorValue("b"), expected[i][j].getColorValue("b"));
+        assertEquals(expected[i][j].getColorValue("r"), reading[i][j].getColorValue("r"), 1);
+        assertEquals(expected[i][j].getColorValue("g"), reading[i][j].getColorValue("g"),1);
+        assertEquals(expected[i][j].getColorValue("b"), reading[i][j].getColorValue("b"), 1);
       }
     }
   }
-
-
 }

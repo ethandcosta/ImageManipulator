@@ -94,7 +94,7 @@ public class LoadTest {
       for (int i = 0; i < result.length; i++) {
         for (int j = 0; j < result[0].length; j++) {
           assertEquals(255, result[i][j].getColorValue("r"));
-          assertEquals(255,  result[i][j].getColorValue("g"));
+          assertEquals(255, result[i][j].getColorValue("g"));
           assertEquals(255, result[i][j].getColorValue("b"));
         }
       }
@@ -105,7 +105,7 @@ public class LoadTest {
   }
 
   @Test
-  public void testJPG(){
+  public void testJPG() {
     try {
       Pixel[][] ppmVersion = ImageUtil.processPPM("res/sunset.ppm");
       test = new Load("res\\sunset.jpg", "sunset", true);
@@ -113,11 +113,11 @@ public class LoadTest {
       for (int i = 0; i < result.length; i++) {
         for (int j = 0; j < result[0].length; j++) {
           assertEquals(ppmVersion[i][j].getColorValue("r"),
-                  result[i][j].getColorValue("r"),20);
+                  result[i][j].getColorValue("r"), 20);
           assertEquals(ppmVersion[i][j].getColorValue("g"),
-                  result[i][j].getColorValue("g"),20);
+                  result[i][j].getColorValue("g"), 20);
           assertEquals(ppmVersion[i][j].getColorValue("b"),
-                  result[i][j].getColorValue("b"),20);
+                  result[i][j].getColorValue("b"), 20);
         }
       }
     } catch (Exception e) {

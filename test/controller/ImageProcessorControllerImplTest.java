@@ -112,14 +112,14 @@ public class ImageProcessorControllerImplTest {
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testInvalidStringInput(){
+  public void testInvalidStringInput() {
     read = new StringReader("garbage");
     controller = new ImageProcessorControllerImpl(view, mockModel, read);
     controller.listen();
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void testInvalidSecondaryInput(){
+  public void testInvalidSecondaryInput() {
     read = new StringReader("garbage fake fake");
     controller = new ImageProcessorControllerImpl(view, mockModel, read);
     controller.listen();

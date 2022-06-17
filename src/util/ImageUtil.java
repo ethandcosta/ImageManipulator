@@ -1,5 +1,6 @@
 package util;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -84,9 +85,10 @@ public class ImageUtil {
       for (int i = 0; i < arr.length; i++) {
         for (int j = 0; j < arr[0].length; j++) {
           int rgb = inputImage.getRGB(j, i);
-          int red = (rgb >> 16) & 0x000000FF;
-          int green = (rgb >> 8) & 0x000000FF;
-          int blue = (rgb) & 0x000000FF;
+          Color color = new Color(rgb);
+          int red = color.getRed();
+          int blue = color.getBlue();
+          int green = color.getGreen();
           arr[i][j] = new RGBPixel(j, i, 255, red, green, blue);
         }
       }

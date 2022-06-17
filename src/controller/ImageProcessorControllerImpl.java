@@ -32,9 +32,9 @@ import view.ImageProcessorView;
  * saved as a new file.
  */
 public class ImageProcessorControllerImpl implements ImageProcessorController {
-  ImageProcessorView view;
-  ImageProcessor model;
-  Readable readable;
+  private ImageProcessorView view;
+  private ImageProcessor model;
+  private Readable readable;
 
   Map<String, ImageProcessor> imageModels = new HashMap<String, ImageProcessor>();
   // needed to store all the different models that have operations applied to them
@@ -123,8 +123,8 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
         overrideSource = this.checkSourceName(destName);
         saveModel = this.imageModels.get(destName);
       } else if (in.equals("load")) {
-        changeSource = !this.imageModels.isEmpty() && !sourceName.equals(this.model.getImageName());
-        overrideSource = this.checkSourceName(destName);
+        changeSource = !this.imageModels.isEmpty() && destName.equals(this.model.getImageName());
+        overrideSource = this.imageModels.isEmpty() && this.checkSourceName(destName);
         saveModel = null;
       } else {
         overrideSource = this.checkSourceName(sourceName) && sourceName.equals(destName);
@@ -193,6 +193,7 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
     if (this.imageModels.containsKey(sourceName) || this.imageModels.isEmpty()) {
       return true;
     } else {
+      System.out.println(sourceName);
       throw new IllegalArgumentException("Please enter a valid source name");
     }
   }

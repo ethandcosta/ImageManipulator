@@ -268,9 +268,9 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     for (int i = 0; i < imageHeight; i++) {
       for (int j = 0; j < imageWidth; j++) {
         temp[i][j] = new RGBPixel(j, i, temp[i][j].getColorValue("maxval"),
-                temp[(imageHeight - 1) - i][j].getColorValue("r"),
-                temp[(imageHeight - 1) - i][j].getColorValue("g"),
-                temp[(imageHeight - 1) - i][j].getColorValue("b"));
+                image[(imageHeight - 1) - i][j].getColorValue("r"),
+                image[(imageHeight - 1) - i][j].getColorValue("g"),
+                image[(imageHeight - 1) - i][j].getColorValue("b"));
       }
     }
     if (override) {
@@ -286,9 +286,9 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
     for (int i = 0; i < imageHeight; i++) {
       for (int j = 0; j < imageWidth; j++) {
         temp[i][j] = new RGBPixel(j, i, temp[i][j].getColorValue("maxval"),
-                temp[i][(imageWidth - 1) - j].getColorValue("r"),
-                temp[i][(imageWidth - 1) - j].getColorValue("g"),
-                temp[i][(imageWidth - 1) - j].getColorValue("b"));
+                image[i][(imageWidth - 1) - j].getColorValue("r"),
+                image[i][(imageWidth - 1) - j].getColorValue("g"),
+                image[i][(imageWidth - 1) - j].getColorValue("b"));
       }
     }
     if (override) {
@@ -354,9 +354,13 @@ public class ImageProcessorModel extends AbstractImageProcessorModel {
               model.getImage().length, BufferedImage.TYPE_INT_RGB);
       for (int i = 0; i < model.getImage().length; i++) {
         for (int j = 0; j < model.getImage()[0].length; j++) {
-          Color color = new Color(model.getImage()[i][j].getColorValue("r"),
-                  model.getImage()[i][j].getColorValue("g"),
-                  model.getImage()[i][j].getColorValue("b"));
+          int red = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("r"),
+                  255);
+          int green = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("g"),
+                  255);
+          int blue = util.Util.clampValue(0, model.getImage()[i][j].getColorValue("b"),
+                  255);
+          Color color = new Color(red, green, blue);
           outputImage.setRGB(j, i, color.getRGB());
 
         }

@@ -23,19 +23,18 @@ public class Util {
 
   /**
    * Clamps a value within bounds of minVal and maxVal.
+   *
    * @param minVal lower limit of val
-   * @param val value to be clamped
+   * @param val    value to be clamped
    * @param maxVal upper limit of val
    * @return val unless above upper limit (return maxVal) or below lower limit (return minVal)
    */
-  public static int clampValue(int minVal, int val, int maxVal){
-    if(val < minVal){
+  public static int clampValue(int minVal, int val, int maxVal) {
+    if (val < minVal) {
       return minVal;
-    }
-    else if(val > maxVal){
+    } else if (val > maxVal) {
       return maxVal;
-    }
-    else{
+    } else {
       return val;
     }
   }
