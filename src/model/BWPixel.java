@@ -43,17 +43,17 @@ public class BWPixel extends Pixel {
   }
 
   @Override
-  protected double getValue() throws IllegalStateException {
+  public double getValue() throws IllegalStateException {
     throw new IllegalStateException("Function not supported for BW-Pixel");
   }
 
   @Override
-  protected double getLuma() throws IllegalStateException {
+  public double getLuma() throws IllegalStateException {
     throw new IllegalStateException("Function not supported for BW-Pixel");
   }
 
   @Override
-  protected double getIntensity() throws IllegalStateException {
+  public double getIntensity() throws IllegalStateException {
     throw new IllegalStateException("Function not supported for BW-Pixel");
   }
 

@@ -47,20 +47,20 @@ public abstract class Pixel {
    *
    * @return the largest value of redValue, greenValue, and blueValue.
    */
-  protected abstract double getValue();
+  public abstract double getValue();
 
   /**
    * Returns the weighted average of all the RGB values, known as luma.
    *
    * @return double representing the luma of an RBG pixel.
    */
-  protected abstract double getLuma();
+  public abstract double getLuma();
 
   /**
    * Returns the intensity of the RBG Pixel.
    *
    * @return the average of the R,G, and B values.
    */
-  protected abstract double getIntensity();
+  public abstract double getIntensity();
 
 }

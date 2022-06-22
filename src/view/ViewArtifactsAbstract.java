@@ -1,9 +1,11 @@
 package view;
 
+import javax.swing.*;
+
 import model.ImageProcessor;
 import model.ImageProcessorModel;
 
-public abstract class ViewArtifactsAbstract implements ViewArtifacts {
+public abstract class ViewArtifactsAbstract extends JPanel implements ViewArtifacts {
   ImageProcessor model;
 
   protected ViewArtifactsAbstract(ImageProcessor model) {

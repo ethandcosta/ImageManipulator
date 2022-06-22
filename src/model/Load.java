@@ -4,6 +4,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.swing.*;
+
+import view.Histogram;
+
 /**
  * This class represents an implementation of a load image operation which is a function object
  * that writes the contents of a specified PPM file path to the model

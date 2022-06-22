@@ -7,6 +7,8 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import javax.swing.*;
+
 import model.Blur;
 import model.Brighten;
 import model.Greyscale;
@@ -22,6 +24,7 @@ import model.Sharpen;
 import model.ValueComponent;
 import model.VerticalFlip;
 import util.Util;
+import view.Histogram;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
@@ -74,6 +77,7 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
     this.view = Util.checkNullness(view);
     this.model = Util.checkNullness(model);
     this.readable = new InputStreamReader(System.in);
+
   }
 
   /**
@@ -169,6 +173,7 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
       } else {
         operation = cmd.apply(scan);
         newEntry = operation.apply(this.model);
+        ImageProcessor modelNew = new ImageProcessorModel(newEntry,destName);
         view = new ImageProcessorTextView(
                 new ImageProcessorModel(newEntry, destName));
         view.renderImage();
@@ -178,12 +183,14 @@ public class ImageProcessorControllerImpl implements ImageProcessorController {
       if (in.equals("load") && !this.imageModels.containsKey(destName)) {
         ImageProcessor firstLoad = new ImageProcessorModel(newEntry, destName);
         this.imageModels.put(destName, firstLoad);
+
       }
 
       if (!overrideSource) {
         ImageProcessor modelEntry = new ImageProcessorModel(newEntry, destName);
         this.imageModels.put(destName, modelEntry);
       }
+
     }
   }
 

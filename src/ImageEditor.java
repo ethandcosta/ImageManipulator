@@ -7,9 +7,12 @@ import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+import javax.swing.*;
+
 import controller.ImageProcessorController;
 import controller.ImageProcessorControllerImpl;
 import model.ImageProcessorModel;
+import view.Histogram;
 import view.ImageProcessorTextView;
 import view.ImageProcessorView;
 
@@ -38,6 +41,9 @@ public class ImageEditor {
     } else {
       read = new InputStreamReader(System.in);
     }
+
+
+
     ImageProcessorController controller = new ImageProcessorControllerImpl(view, model, read);
     controller.listen();
   }
