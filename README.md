@@ -68,7 +68,7 @@
 **Note: IT'S VERY IMPORTANT THAT THERE ARE _NO_ QUOTATION MARKS FOR EACH OF THE LINES OF COMMANDS IF PASTING TO A _TEXT FILE_!**
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 load res/dragon.jpg dragon
-save res/dragon-immeadiate.ppm dragon
+save res/dragon-immediate.ppm dragon
 sepia dragon dragon-sepia
 blur dragon dragon-blur
 blur dragon-blur dragon-blur-twice
