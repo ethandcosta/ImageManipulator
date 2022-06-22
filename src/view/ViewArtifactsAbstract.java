@@ -6,7 +6,7 @@ import model.ImageProcessorModel;
 public abstract class ViewArtifactsAbstract implements ViewArtifacts {
   ImageProcessor model;
 
-  protected ViewArtifactsAbstract() {
-    this.model = new ImageProcessorModel();
+  protected ViewArtifactsAbstract(ImageProcessor model) {
+    this.model = model;
   }
 }
