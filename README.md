@@ -1,4 +1,4 @@
-# Assignment5-OOD
+# Assignment6-OOD
 
 ## _The image sunset.ppm and dragon.jpg and all its derivatives used in this assignment are artistic properties under David Zhang._
 
