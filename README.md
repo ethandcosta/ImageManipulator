@@ -1,4 +1,4 @@
-# Assignment5-OOD
+# Assignment6-OOD
 
 ## _The image sunset.ppm and dragon.jpg and all its derivatives used in this assignment are artistic properties under David Zhang._
 
@@ -6,20 +6,9 @@
 
 # The full program is complete and every feature should be able to work as intended including all operations from previous assignments.
 
-## Changes made from Assignment4 to Assignment5:
+## Changes made and their justifications from Assignment5 to Assignment6:
 
-- Added a new interface for filterable operations which extends Operations for future-proofing later iterations of possbly additional filterable operations and conditions
-- Added a new abstract class for implementations of this filterable operations interface
-  due to the fact that all the filterable operations were similar
-- Added new lambda functions in our command design Operations map which can now be sensitive to reading the new commands
-- Added access modifiers to the controller's fields
-- Added support for applying sepia, blur, sharpen and greyscale filters/operations
-- Removed most of the save function logic from the model to the ImageUtils class to remove doing I/O operations directly in the model
-- Refactored some of the tests to reflect this change save implementation
-- Updated CLI scripts for the sunset image to save as new image formats
-- Added a new dragon image for testing
-- Added new methods in the ImageUtils class for parsing a non-PPM image into a Pixel 2D array and turning a Pixel 2D array back into the specified image format
-- Added tests for all new implementations
+## How to Use the Program:
 
 ### Provide the following below as arguments in the program arguments in IntelliJ (CLI):
 
